@@ -1,0 +1,43 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Box } from "@mui/material";
+import NavBar from "./components/NavBar";
+import ListaProdutos from "./pages/ListaProdutos";
+import ProductDetails from "./pages/ProductDetails";
+import FormProduto from "./pages/FormProduto";
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      {/* Navbar fixa no topo */}
+      <NavBar />
+
+      {/* Área principal */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          minHeight: "calc(100vh - 64px)",
+          backgroundColor: "#f8f9fa",
+          padding: 2,
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 800,
+          }}
+        >
+          {/* Rotas */}
+          <Routes>
+            <Route path="/" element={<ListaProdutos />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/novo" element={<FormProduto />} />
+            <Route path="/editar/:id" element={<FormProduto />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Box>
+      </Box>
+    </BrowserRouter>
+  );
+}
