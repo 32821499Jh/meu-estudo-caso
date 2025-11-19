@@ -19,16 +19,17 @@ export default function FormProduto({
   onSubmit,
   onCancel,
 }: Props) {
-  const { control, handleSubmit, setValue } = useForm({
+  // Tipar o formulário como strings para evitar conflito com Produto.preco (number)
+  const { control, handleSubmit, setValue } = useForm<{ nome: string; preco: string }>({
     defaultValues: {
-      nome: produto.nome,
-      preco: produto.preco ? String(produto.preco) : "",
+      nome: produto?.nome ?? "",
+      preco: produto?.preco !== undefined ? String(produto.preco) : "",
     },
   });
 
   useEffect(() => {
-    setValue("nome", produto.nome);
-    setValue("preco", produto.preco ? String(produto.preco) : "");
+    setValue("nome", produto?.nome ?? "");
+    setValue("preco", produto?.preco !== undefined ? String(produto.preco) : "");
   }, [produto, setValue]);
 
   return (
@@ -40,7 +41,7 @@ export default function FormProduto({
         render={({ field: { onChange: onChangeField, value }, fieldState }) => (
           <TextInput
             label="Nome"
-            value={value}
+            value={value ?? ""}
             onChangeText={(text: string) => {
               onChangeField(text);
               onChange("nome", text);
@@ -48,8 +49,6 @@ export default function FormProduto({
             mode="outlined"
             style={{ marginBottom: 16, backgroundColor: "#fff" }}
             autoFocus
-            textColor="#222"
-            underlineColor="#1976d2"
             selectionColor="#1976d2"
             error={!!fieldState.error}
           />
@@ -68,7 +67,7 @@ export default function FormProduto({
         render={({ field: { onChange: onChangeField, value }, fieldState }) => (
           <TextInput
             label="Preço"
-            value={value}
+            value={value ?? ""}
             onChangeText={(text: string) => {
               let sanitized = text.replace(",", ".").replace(/[^0-9.]/g, "");
               onChangeField(sanitized);
@@ -77,10 +76,7 @@ export default function FormProduto({
             mode="outlined"
             keyboardType="decimal-pad"
             style={{ marginBottom: 16, backgroundColor: "#fff" }}
-            inputMode="decimal"
-            underlineColor="#1976d2"
             selectionColor="#1976d2"
-            textColor="#222"
             error={!!fieldState.error}
           />
         )}

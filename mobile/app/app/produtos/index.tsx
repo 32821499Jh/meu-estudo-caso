@@ -14,6 +14,12 @@ export default function Produtos() {
     try {
       const lista = await produtoService.listar();
       setProdutos(lista);
+    } catch (error: any) {
+      console.error("Erro ao listar produtos:", error?.message ?? error);
+      Alert.alert(
+        "Erro de Rede",
+        "Não foi possível carregar os produtos. Verifique sua conexão ou as configurações do servidor."
+      );
     } finally {
       setLoading(false);
     }
@@ -29,10 +35,20 @@ export default function Produtos() {
       {
         text: "Excluir",
         style: "destructive",
-        // Use replace para evitar empilhar a navegação ao recarregar a lista
         onPress: async () => {
-          await produtoService.excluir(id);
-          router.replace("/produtos");
+          try {
+            setLoading(true);
+            await produtoService.excluir(id);
+            Alert.alert("Sucesso", "Produto excluído com sucesso.");
+            // Recarrega a lista localmente sem navegar
+            await carregarProdutos();
+          } catch (err: any) {
+            console.error("Erro ao excluir produto:", err?.message ?? err);
+            const msg = err?.response?.data?.message ?? err?.message ?? "Erro desconhecido";
+            Alert.alert("Erro", `Não foi possível excluir o produto: ${msg}`);
+          } finally {
+            setLoading(false);
+          }
         },
       },
     ]);
