@@ -2,11 +2,9 @@ import { Text, View, Image } from "react-native";
 import { Button, Card } from "react-native-paper";
 import { useRouter } from "expo-router";
 
-// Este arquivo é a tela inicial do Expo Router.
-// Não use NavigationContainer ou MainStack aqui.
-
 export default function Index() {
   const router = useRouter();
+
   return (
     <View
       style={{
@@ -30,11 +28,12 @@ export default function Index() {
       >
         <Image
           source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/1170/1170576.png",
+            uri: "https://cdn-icons-png.flaticon.com/512/3135/3135755.png",
           }}
           style={{ width: 80, height: 80, marginBottom: 16 }}
           resizeMode="contain"
         />
+
         <Text
           style={{
             fontSize: 22,
@@ -44,8 +43,9 @@ export default function Index() {
             textAlign: "center",
           }}
         >
-          Bem-vindo ao CRUD Produtos
+          Bem-vindo ao CRUD de Alunos
         </Text>
+
         <Text
           style={{
             textAlign: "center",
@@ -54,11 +54,12 @@ export default function Index() {
             fontSize: 16,
           }}
         >
-          Gerencie seus produtos de forma simples e rápida.
+          Gerencie alunos de forma prática e rápida.
         </Text>
+
         <Button
           mode="contained"
-          onPress={() => router.push("../produtos")}
+          onPress={() => router.push("/alunos" as never)}
           style={{
             backgroundColor: "#1976d2",
             borderRadius: 8,
@@ -66,9 +67,9 @@ export default function Index() {
             width: "100%",
           }}
           labelStyle={{ fontSize: 16, color: "#fff" }}
-          icon="format-list-bulleted"
+          icon="account-multiple"
         >
-          Ir para Produtos
+          Ir para Alunos
         </Button>
       </Card>
     </View>

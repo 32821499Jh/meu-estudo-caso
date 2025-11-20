@@ -2,53 +2,39 @@ import React, { useEffect, useState } from "react";
 import { View, FlatList, ActivityIndicator, Alert } from "react-native";
 import { Card, Button, Text, FAB } from "react-native-paper";
 import { useRouter } from "expo-router";
-import produtoService, { Produto } from "../../scripts/produtoService";
 
-export default function Produtos() {
-  const [produtos, setProdutos] = useState<Produto[]>([]);
+import alunoService, { Aluno } from "../../scripts/alunoService";
+
+export default function ListaAlunos() {
+  const [alunos, setAlunos] = useState<Aluno[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const carregarProdutos = async () => {
+  // Carrega lista de alunos
+  const carregarAlunos = async () => {
     setLoading(true);
     try {
-      const lista = await produtoService.listar();
-      setProdutos(lista);
-    } catch (error: any) {
-      console.error("Erro ao listar produtos:", error?.message ?? error);
-      Alert.alert(
-        "Erro de Rede",
-        "Não foi possível carregar os produtos. Verifique sua conexão ou as configurações do servidor."
-      );
+      const lista = await alunoService.listar();
+      setAlunos(lista);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    carregarProdutos();
+    carregarAlunos();
   }, []);
 
+  // Excluir aluno
   const handleDelete = (id: number) => {
-    Alert.alert("Excluir Produto", "Deseja realmente excluir este produto?", [
+    Alert.alert("Excluir Aluno", "Deseja realmente excluir este aluno?", [
       { text: "Cancelar", style: "cancel" },
       {
         text: "Excluir",
         style: "destructive",
         onPress: async () => {
-          try {
-            setLoading(true);
-            await produtoService.excluir(id);
-            Alert.alert("Sucesso", "Produto excluído com sucesso.");
-            // Recarrega a lista localmente sem navegar
-            await carregarProdutos();
-          } catch (err: any) {
-            console.error("Erro ao excluir produto:", err?.message ?? err);
-            const msg = err?.response?.data?.message ?? err?.message ?? "Erro desconhecido";
-            Alert.alert("Erro", `Não foi possível excluir o produto: ${msg}`);
-          } finally {
-            setLoading(false);
-          }
+          await alunoService.excluir(id);
+          carregarAlunos(); // Atualiza lista
         },
       },
     ]);
@@ -60,22 +46,29 @@ export default function Produtos() {
   return (
     <View style={{ flex: 1, padding: 16 }}>
       <FlatList
-        data={produtos}
+        data={alunos}
         keyExtractor={(item) => item.id?.toString() ?? ""}
         renderItem={({ item }) => (
           <Card style={{ marginBottom: 12 }}>
             <Card.Title
               title={item.nome}
-              subtitle={`R$ ${item.preco.toFixed(2)}`}
+              subtitle={`Curso: ${item.curso} | Turma: ${item.turma}`}
             />
+            <Card.Content>
+              <Text>Matrícula: {item.matricula}</Text>
+            </Card.Content>
+
             <Card.Actions>
               <Button
                 mode="outlined"
-                onPress={() => router.replace(`/produtos/${item.id}`)}
+                onPress={() =>
+                  router.replace(`/alunos/${item.id}` as never)
+                }
                 style={{ marginRight: 8 }}
               >
                 Editar
               </Button>
+
               <Button
                 mode="outlined"
                 textColor="#d32f2f"
@@ -88,10 +81,11 @@ export default function Produtos() {
         )}
         ListEmptyComponent={
           <Text style={{ textAlign: "center", marginTop: 20 }}>
-            Nenhum produto cadastrado.
+            Nenhum aluno cadastrado.
           </Text>
         }
       />
+
       <FAB
         icon="plus"
         style={{
@@ -99,9 +93,8 @@ export default function Produtos() {
           right: 16,
           bottom: 16,
           backgroundColor: "#1976d2",
-          pointerEvents: "auto", // Adicionado ao objeto style
         }}
-        onPress={() => router.replace("/produtos/novo")}
+        onPress={() => router.replace("/alunos/novo" as never)}
         color="#fff"
       />
     </View>

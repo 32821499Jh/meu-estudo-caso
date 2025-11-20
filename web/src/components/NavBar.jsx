@@ -5,6 +5,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default function NavBar() {
   const location = useLocation();
+
   return (
     <AppBar
       position="static"
@@ -15,6 +16,7 @@ export default function NavBar() {
     >
       <Toolbar sx={{ justifyContent: "center" }}>
         <Stack direction="row" spacing={3}>
+          {/* Lista de alunos */}
           <Button
             color={location.pathname === "/" ? "secondary" : "inherit"}
             variant={location.pathname === "/" ? "contained" : "text"}
@@ -26,8 +28,10 @@ export default function NavBar() {
               color: location.pathname === "/" ? "#fff" : "#e3f2fd",
             }}
           >
-            Produtos
+            Alunos
           </Button>
+
+          {/* Novo aluno */}
           <Button
             color={location.pathname === "/novo" ? "secondary" : "inherit"}
             variant={location.pathname === "/novo" ? "contained" : "text"}
@@ -39,7 +43,7 @@ export default function NavBar() {
               color: location.pathname === "/novo" ? "#fff" : "#e3f2fd",
             }}
           >
-            Novo Produto
+            Novo Aluno
           </Button>
         </Stack>
       </Toolbar>

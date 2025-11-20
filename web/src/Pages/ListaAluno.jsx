@@ -15,39 +15,39 @@ import {
   Typography,
 } from "@mui/material";
 import { Add, Edit, Delete } from "@mui/icons-material";
-import produtoService from "../services/produtoService";
+import alunoService from "../services/alunoService";
 
-export default function ListaProdutos() {
+export default function ListaAlunos() {
   const navigate = useNavigate();
-  const [produtos, setProdutos] = useState([]);
+  const [alunos, setAlunos] = useState([]);
   const [carregando, setCarregando] = useState(false);
 
   useEffect(() => {
-    carregarProdutos();
+    carregarAlunos();
   }, []);
 
-  const carregarProdutos = async () => {
+  const carregarAlunos = async () => {
     try {
       setCarregando(true);
-      const data = await produtoService.listar();
-      setProdutos(data);
+      const data = await alunoService.listar();
+      setAlunos(data);
     } catch (error) {
-      console.error("Erro ao carregar produtos:", error);
-      alert("Erro ao carregar produtos. Verifique a API ou CORS.");
+      console.error("Erro ao carregar alunos:", error);
+      alert("Erro ao carregar alunos. Verifique a API ou CORS.");
     } finally {
       setCarregando(false);
     }
   };
 
   const handleExcluir = async (id) => {
-    if (window.confirm("Deseja realmente excluir este produto?")) {
+    if (window.confirm("Deseja realmente excluir este aluno?")) {
       try {
-        await produtoService.excluir(id);
-        alert("Produto excluído com sucesso!");
-        carregarProdutos();
+        await alunoService.excluir(id);
+        alert("Aluno excluído com sucesso!");
+        carregarAlunos();
       } catch (error) {
-        console.error("Erro ao excluir produto:", error);
-        alert("Erro ao excluir produto. Tente novamente.");
+        console.error("Erro ao excluir aluno:", error);
+        alert("Erro ao excluir aluno. Tente novamente.");
       }
     }
   };
@@ -77,7 +77,7 @@ export default function ListaProdutos() {
           color="primary"
           sx={{ display: "flex", alignItems: "center", gap: 1 }}
         >
-          🛍️ Lista de Produtos
+          🎓 Lista de Alunos
         </Typography>
 
         <Button
@@ -92,7 +92,7 @@ export default function ListaProdutos() {
           }}
           onClick={() => navigate("/novo")}
         >
-          Novo Produto
+          Novo Aluno
         </Button>
       </Box>
 
@@ -110,54 +110,53 @@ export default function ListaProdutos() {
           <Box display="flex" justifyContent="center" my={6}>
             <CircularProgress color="secondary" />
           </Box>
-        ) : produtos.length === 0 ? (
+        ) : alunos.length === 0 ? (
           <Typography textAlign="center" color="text.secondary" py={5}>
-            Nenhum produto cadastrado ainda.
+            Nenhum aluno cadastrado ainda.
           </Typography>
         ) : (
           <TableContainer>
             <Table>
-              <TableHead sx={{ bgcolor: "#9c27b0" }}>
+              <TableHead sx={{ bgcolor: "#1976d2" }}>
                 <TableRow>
                   <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>ID</TableCell>
                   <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Nome</TableCell>
-                  <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Preço (R$)</TableCell>
+                  <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>E-mail</TableCell>
+                  <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>RA</TableCell>
                   <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Ações</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {produtos.map((produto) => (
+                {alunos.map((aluno) => (
                   <TableRow
-                    key={produto.id}
+                    key={aluno.id}
                     hover
                     sx={{
-                      "&:hover": { bgcolor: "#f3e5f5" },
+                      "&:hover": { bgcolor: "#e3f2fd" },
                       transition: "0.2s ease",
                     }}
                   >
-                    <TableCell>{produto.id}</TableCell>
-                    <TableCell>{produto.nome}</TableCell>
-                    <TableCell>
-                      {produto.preco
-                        ? `R$ ${Number(produto.preco).toLocaleString("pt-BR", {
-                            minimumFractionDigits: 2,
-                          })}`
-                        : "—"}
-                    </TableCell>
+                    <TableCell>{aluno.id}</TableCell>
+                    <TableCell>{aluno.nome}</TableCell>
+                    <TableCell>{aluno.email}</TableCell>
+                    <TableCell>{aluno.ra}</TableCell>
+
                     <TableCell>
                       <IconButton
                         color="primary"
-                        onClick={() => navigate(`/editar/${produto.id}`)}
+                        onClick={() => navigate(`/editar/${aluno.id}`)}
                       >
                         <Edit />
                       </IconButton>
+
                       <IconButton
                         color="error"
-                        onClick={() => handleExcluir(produto.id)}
+                        onClick={() => handleExcluir(aluno.id)}
                       >
                         <Delete />
                       </IconButton>
                     </TableCell>
+
                   </TableRow>
                 ))}
               </TableBody>

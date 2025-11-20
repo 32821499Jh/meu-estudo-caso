@@ -1,4 +1,6 @@
+# ----------------------------
 # Logs
+# ----------------------------
 logs
 *.log
 npm-debug.log*
@@ -7,18 +9,48 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# ----------------------------
+# Dependências
+# ----------------------------
+node_modules/
+
+# ----------------------------
+# Build (Vite / React)
+# ----------------------------
+dist/
+dist-ssr/
 *.local
 
-# Editor directories and files
+# ----------------------------
+# Build (Expo / React Native)
+# ----------------------------
+.expo/
+.expo-shared/
+android/
+ios/
+web-build/
+expo-build/
+
+# ----------------------------
+# Sistema / SO
+# ----------------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------------
+# IDEs / Editores
+# ----------------------------
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# ----------------------------
+# Arquivos temporários
+# ----------------------------
+*.tmp
+*.temp

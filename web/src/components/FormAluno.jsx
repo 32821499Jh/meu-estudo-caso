@@ -1,7 +1,7 @@
 import { TextField, Button, Stack, CircularProgress } from "@mui/material";
 
-export default function FormProduto({
-  produto,
+export default function FormAluno({
+  aluno,
   loading,
   onChange,
   onSubmit,
@@ -16,22 +16,32 @@ export default function FormProduto({
         <TextField
           label="Nome"
           name="nome"
-          value={produto.nome}
+          value={aluno.nome}
           onChange={onChange}
           required
         />
+
         <TextField
-          label="Preço"
-          name="preco"
-          type="number"
-          value={produto.preco}
+          label="E-mail"
+          name="email"
+          type="email"
+          value={aluno.email}
           onChange={onChange}
           required
-          inputProps={{ step: "0.01", min: "0" }}
         />
+
+        <TextField
+          label="RA"
+          name="ra"
+          value={aluno.ra}
+          onChange={onChange}
+          required
+        />
+
         <Button type="submit" variant="contained" color="primary">
           Salvar
         </Button>
+
         <Button variant="outlined" color="secondary" onClick={onCancel}>
           Cancelar
         </Button>

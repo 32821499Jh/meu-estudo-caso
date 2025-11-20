@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Box } from "@mui/material";
 import NavBar from "./components/NavBar";
@@ -15,7 +16,7 @@ export default function App() {
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
-          minHeight: "calc(100vh - 64px)", // caso a altura da NavBar seja 64px
+          minHeight: "calc(100vh - 64px)", // altura da Navbar
           backgroundColor: "#f8f9fa",
           padding: 2,
         }}

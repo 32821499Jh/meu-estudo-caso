@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://proweb.leoproti.com.br/produtos";
+const API_URL = "https://proweb.leoproti.com.br/alunos";
 
 const listar = async () => {
   const { data } = await axios.get(API_URL);
@@ -12,13 +12,13 @@ const obter = async (id) => {
   return data;
 };
 
-const criar = async (produto) => {
-  const { data } = await axios.post(API_URL, produto);
+const criar = async (aluno) => {
+  const { data } = await axios.post(API_URL, aluno);
   return data;
 };
 
-const atualizar = async (id, produto) => {
-  const { data } = await axios.put(`${API_URL}/${id}`, produto);
+const atualizar = async (id, aluno) => {
+  const { data } = await axios.put(`${API_URL}/${id}`, aluno);
   return data;
 };
 

@@ -3,7 +3,7 @@ import { PaperProvider, DefaultTheme } from "react-native-paper";
 import { useEffect } from "react";
 import { StatusBar } from "react-native";
 
-// Tema global claro com azul
+// Tema global claro com azul (igual ao web)
 const lightBlueTheme = {
   ...DefaultTheme,
   colors: {
@@ -34,18 +34,18 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen
-          name="produtos/index"
-          options={{ title: "Lista de Produtos" }}
+          name="alunos/index"
+          options={{ title: "Lista de Alunos" }}
         />
         <Stack.Screen
-          name="produtos/novo"
-          options={{ title: "Novo Produto" }}
+          name="alunos/novo"
+          options={{ title: "Novo Aluno" }}
         />
         <Stack.Screen
-          name="produtos/[id]"
-          options={{ title: "Editar Produto" }}
+          name="alunos/[id]"
+          options={{ title: "Editar Aluno" }}
         />
       </Stack>
     </PaperProvider>
-  );
+  );
 }

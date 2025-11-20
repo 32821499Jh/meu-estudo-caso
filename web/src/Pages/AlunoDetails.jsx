@@ -9,12 +9,12 @@ import {
   Button,
   Chip,
 } from "@mui/material";
-import produtoService from "../services/produtoService";
+import alunoService from "../services/alunoService";
 
-export default function ProductDetails() {
+export default function AlunoDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [produto, setProduto] = useState(null);
+  const [aluno, setAluno] = useState(null);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState("");
 
@@ -23,12 +23,12 @@ export default function ProductDetails() {
     setLoading(true);
     setErro("");
 
-    produtoService
+    alunoService
       .obter(id)
       .then((data) => {
-        if (ativo) setProduto(data);
+        if (ativo) setAluno(data);
       })
-      .catch(() => setErro("Produto não encontrado."))
+      .catch(() => setErro("Aluno não encontrado."))
       .finally(() => ativo && setLoading(false));
 
     return () => {
@@ -44,11 +44,11 @@ export default function ProductDetails() {
     );
   }
 
-  if (erro || !produto) {
+  if (erro || !aluno) {
     return (
       <Paper sx={{ p: 4, maxWidth: 560, mx: "auto", mt: 6, borderRadius: 3 }}>
         <Typography variant="h6" color="error" gutterBottom>
-          {erro || "Produto não encontrado."}
+          {erro || "Aluno não encontrado."}
         </Typography>
         <Button variant="contained" onClick={() => navigate("/")}>
           Voltar para a lista
@@ -56,11 +56,6 @@ export default function ProductDetails() {
       </Paper>
     );
   }
-
-  const precoFmt =
-    typeof produto.preco === "number"
-      ? produto.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
-      : `R$ ${produto.preco}`;
 
   return (
     <div
@@ -71,29 +66,52 @@ export default function ProductDetails() {
         minHeight: "70vh",
       }}
     >
-      <Paper sx={{ p: 4, maxWidth: 560, width: "90%", mt: 6, borderRadius: 3, boxShadow: 3 }}>
+      <Paper
+        sx={{
+          p: 4,
+          maxWidth: 560,
+          width: "90%",
+          mt: 6,
+          borderRadius: 3,
+          boxShadow: 3,
+        }}
+      >
         <Stack spacing={2}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Typography variant="h5" color="primary" fontWeight="bold">
-              Detalhes do Produto
+              Detalhes do Aluno
             </Typography>
-            <Chip label={`ID: ${produto.id}`} />
+            <Chip label={`ID: ${aluno.id}`} />
           </Stack>
 
           <Divider />
 
+          {/* Nome */}
           <Stack spacing={1}>
             <Typography variant="subtitle2" color="text.secondary">
               Nome
             </Typography>
-            <Typography variant="h6">{produto.nome}</Typography>
+            <Typography variant="h6">{aluno.nome}</Typography>
           </Stack>
 
+          {/* Email */}
           <Stack spacing={1}>
             <Typography variant="subtitle2" color="text.secondary">
-              Preço
+              E-mail
             </Typography>
-            <Typography variant="h6">{precoFmt}</Typography>
+            <Typography variant="h6">{aluno.email}</Typography>
+          </Stack>
+
+          {/* RA */}
+          <Stack spacing={1}>
+            <Typography variant="subtitle2" color="text.secondary">
+              RA
+            </Typography>
+            <Typography variant="h6">{aluno.ra}</Typography>
           </Stack>
 
           <Divider />
@@ -106,9 +124,9 @@ export default function ProductDetails() {
             <Button
               variant="contained"
               component={RouterLink}
-              to={`/editar/${produto.id}`}
+              to={`/editar/${aluno.id}`}
             >
-              Editar produto
+              Editar aluno
             </Button>
           </Stack>
         </Stack>

@@ -8,34 +8,39 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import produtoService from "../services/produtoService"; // ✅ mesma forma de importação
+import alunoService from "../services/alunoService";
 
-export default function FormProduto() {
+export default function FormAluno() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [produto, setProduto] = useState({
+  const [aluno, setAluno] = useState({
     nome: "",
-    preco: "",
+    email: "",
+    ra: "",
   });
 
   const [carregando, setCarregando] = useState(false);
 
-  // 🔄 Carrega o produto se for edição
+  // Carrega o aluno se estiver editando
   useEffect(() => {
     if (id) {
-      carregarProduto();
+      carregarAluno();
     }
   }, [id]);
 
-  const carregarProduto = async () => {
+  const carregarAluno = async () => {
     try {
       setCarregando(true);
-      const data = await produtoService.obter(id);
-      setProduto({ nome: data.nome, preco: data.preco });
+      const data = await alunoService.obter(id);
+      setAluno({
+        nome: data.nome,
+        email: data.email,
+        ra: data.ra,
+      });
     } catch (error) {
-      console.error("❌ Erro ao carregar produto:", error);
-      alert("Erro ao carregar produto. Verifique a API.");
+      console.error("❌ Erro ao carregar aluno:", error);
+      alert("Erro ao carregar aluno. Verifique a API.");
     } finally {
       setCarregando(false);
     }
@@ -43,16 +48,16 @@ export default function FormProduto() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduto((prev) => ({
+    setAluno((prev) => ({
       ...prev,
-      [name]: name === "preco" ? value.replace(",", ".") : value,
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!produto.nome || !produto.preco) {
+    if (!aluno.nome || !aluno.email || !aluno.ra) {
       alert("Preencha todos os campos!");
       return;
     }
@@ -60,23 +65,18 @@ export default function FormProduto() {
     try {
       setCarregando(true);
 
-      const produtoFormatado = {
-        nome: produto.nome,
-        preco: parseFloat(produto.preco),
-      };
-
       if (id) {
-        await produtoService.atualizar(id, produtoFormatado);
-        alert("Produto atualizado com sucesso!");
+        await alunoService.atualizar(id, aluno);
+        alert("Aluno atualizado com sucesso!");
       } else {
-        await produtoService.criar(produtoFormatado);
-        alert("Produto cadastrado com sucesso!");
+        await alunoService.criar(aluno);
+        alert("Aluno cadastrado com sucesso!");
       }
 
       navigate("/");
     } catch (error) {
-      console.error("❌ Erro ao salvar produto:", error);
-      alert("Erro ao salvar produto. Verifique a API.");
+      console.error("❌ Erro ao salvar aluno:", error);
+      alert("Erro ao salvar aluno. Verifique a API.");
     } finally {
       setCarregando(false);
     }
@@ -106,7 +106,7 @@ export default function FormProduto() {
           fontWeight="bold"
           gutterBottom
         >
-          {id ? "Editar Produto" : "Novo Produto"}
+          {id ? "Editar Aluno" : "Novo Aluno"}
         </Typography>
 
         {carregando ? (
@@ -117,9 +117,9 @@ export default function FormProduto() {
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label="Nome do Produto"
+              label="Nome do Aluno"
               name="nome"
-              value={produto.nome}
+              value={aluno.nome}
               onChange={handleChange}
               margin="normal"
               required
@@ -127,14 +127,23 @@ export default function FormProduto() {
 
             <TextField
               fullWidth
-              label="Preço (R$)"
-              name="preco"
-              type="number"
-              value={produto.preco}
+              label="E-mail"
+              name="email"
+              type="email"
+              value={aluno.email}
               onChange={handleChange}
               margin="normal"
               required
-              inputProps={{ step: "0.01" }}
+            />
+
+            <TextField
+              fullWidth
+              label="RA"
+              name="ra"
+              value={aluno.ra}
+              onChange={handleChange}
+              margin="normal"
+              required
             />
 
             <Box
