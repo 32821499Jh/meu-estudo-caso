@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { View, TextInput } from "react-native"; // <-- IMPORTA O CORRETO
 import { Controller, useForm } from "react-hook-form";
-import { TextInput, Button } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { Aluno } from "../scripts/alunoService";
 
 interface Props {
@@ -35,25 +35,30 @@ export default function FormAlunos({
     setValue("matricula", aluno.matricula ?? "");
   }, [aluno, setValue]);
 
+  const inputStyle = {
+    borderWidth: 1,
+    borderColor: "#999",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 16,
+  };
+
   return (
     <View style={{ width: "100%" }}>
-      
       {/* NOME */}
       <Controller
         control={control}
         name="nome"
         rules={{ required: "Nome obrigatório" }}
-        render={({ field: { onChange: onFieldChange, value }, fieldState }) => (
+        render={({ field: { onChange: onFieldChange, value } }) => (
           <TextInput
-            label="Nome"
+            placeholder="Nome"
             value={value}
             onChangeText={(text) => {
               onFieldChange(text);
               onChange("nome", text);
             }}
-            mode="outlined"
-            style={{ marginBottom: 16 }}
-            error={!!fieldState.error}
+            style={inputStyle}
           />
         )}
       />
@@ -63,17 +68,15 @@ export default function FormAlunos({
         control={control}
         name="turma"
         rules={{ required: "Turma obrigatória" }}
-        render={({ field: { onChange: onFieldChange, value }, fieldState }) => (
+        render={({ field: { onChange: onFieldChange, value } }) => (
           <TextInput
-            label="Turma"
+            placeholder="Turma"
             value={value}
             onChangeText={(text) => {
               onFieldChange(text);
               onChange("turma", text);
             }}
-            mode="outlined"
-            style={{ marginBottom: 16 }}
-            error={!!fieldState.error}
+            style={inputStyle}
           />
         )}
       />
@@ -83,17 +86,15 @@ export default function FormAlunos({
         control={control}
         name="curso"
         rules={{ required: "Curso obrigatório" }}
-        render={({ field: { onChange: onFieldChange, value }, fieldState }) => (
+        render={({ field: { onChange: onFieldChange, value } }) => (
           <TextInput
-            label="Curso"
+            placeholder="Curso"
             value={value}
             onChangeText={(text) => {
               onFieldChange(text);
               onChange("curso", text);
             }}
-            mode="outlined"
-            style={{ marginBottom: 16 }}
-            error={!!fieldState.error}
+            style={inputStyle}
           />
         )}
       />
@@ -103,17 +104,15 @@ export default function FormAlunos({
         control={control}
         name="matricula"
         rules={{ required: "Matrícula obrigatória" }}
-        render={({ field: { onChange: onFieldChange, value }, fieldState }) => (
+        render={({ field: { onChange: onFieldChange, value } }) => (
           <TextInput
-            label="Matrícula"
+            placeholder="Matrícula"
             value={value}
             onChangeText={(text) => {
               onFieldChange(text);
               onChange("matricula", text);
             }}
-            mode="outlined"
-            style={{ marginBottom: 16 }}
-            error={!!fieldState.error}
+            style={inputStyle}
           />
         )}
       />
@@ -128,11 +127,7 @@ export default function FormAlunos({
         Salvar
       </Button>
 
-      <Button
-        mode="outlined"
-        onPress={onCancel}
-        labelStyle={{ color: "#1976d2" }}
-      >
+      <Button mode="outlined" onPress={onCancel}>
         Cancelar
       </Button>
     </View>

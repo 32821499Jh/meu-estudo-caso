@@ -10,7 +10,6 @@ export default function ListaAlunos() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Carrega lista de alunos
   const carregarAlunos = async () => {
     setLoading(true);
     try {
@@ -25,7 +24,6 @@ export default function ListaAlunos() {
     carregarAlunos();
   }, []);
 
-  // Excluir aluno
   const handleDelete = (id: number) => {
     Alert.alert("Excluir Aluno", "Deseja realmente excluir este aluno?", [
       { text: "Cancelar", style: "cancel" },
@@ -34,7 +32,7 @@ export default function ListaAlunos() {
         style: "destructive",
         onPress: async () => {
           await alunoService.excluir(id);
-          carregarAlunos(); // Atualiza lista
+          carregarAlunos();
         },
       },
     ]);
@@ -61,9 +59,7 @@ export default function ListaAlunos() {
             <Card.Actions>
               <Button
                 mode="outlined"
-                onPress={() =>
-                  router.replace(`/alunos/${item.id}` as never)
-                }
+                onPress={() => router.push(`/alunos/${item.id}` as never)}
                 style={{ marginRight: 8 }}
               >
                 Editar
@@ -94,7 +90,7 @@ export default function ListaAlunos() {
           bottom: 16,
           backgroundColor: "#1976d2",
         }}
-        onPress={() => router.replace("/alunos/novo" as never)}
+        onPress={() => router.push("/alunos/novo" as never)}
         color="#fff"
       />
     </View>

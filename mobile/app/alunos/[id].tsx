@@ -18,7 +18,6 @@ export default function EditarAluno() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // Carregar aluno pelo ID
   useEffect(() => {
     if (id) {
       setLoading(true);
@@ -34,7 +33,6 @@ export default function EditarAluno() {
     }
   }, [id]);
 
-  // Capturar mudança dos campos
   const handleChange = (name: keyof Aluno, value: string) => {
     setAluno((prev) => ({
       ...prev,
@@ -42,7 +40,6 @@ export default function EditarAluno() {
     }));
   };
 
-  // Enviar formulário
   const handleSubmit = async () => {
     if (!aluno.nome || !aluno.turma || !aluno.curso || !aluno.matricula) {
       alert("Preencha todos os campos!");
@@ -52,16 +49,14 @@ export default function EditarAluno() {
     setLoading(true);
     try {
       await alunoService.atualizar(Number(id), aluno);
-      router.replace("/alunos" as never); // rota correta
+      router.push("/alunos");
     } finally {
       setLoading(false);
     }
   };
 
   if (loading)
-    return (
-      <ActivityIndicator size="large" style={{ marginTop: 40 }} />
-    );
+    return <ActivityIndicator size="large" style={{ marginTop: 40 }} />;
 
   return (
     <View style={{ flex: 1, padding: 16 }}>
@@ -81,7 +76,7 @@ export default function EditarAluno() {
           if (router.canGoBack?.()) {
             router.back();
           } else {
-            router.replace("/alunos" as never);
+            router.push("/alunos");
           }
         }}
       />

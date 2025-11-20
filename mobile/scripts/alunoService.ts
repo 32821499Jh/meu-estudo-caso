@@ -8,7 +8,13 @@ export interface Aluno {
   matricula: string;
 }
 
-const API_URL = "http://proweb.leoproti.com.br/alunos";
+// 🔥 TROQUE AQUI 🔥
+// Opção 1: tente com HTTPS
+// const API_URL = "https://proweb.leoproti.com.br/alunos";
+
+// Opção 2: coloque o IP da sua máquina (GARANTIDO)
+const API_URL = "https://proweb.leoproti.com.br/alunos"; 
+// ⚠️ substitua 192.168.x.x pelo seu IPv4 real!!
 
 // LISTAR
 const listar = async (): Promise<Aluno[]> => {
